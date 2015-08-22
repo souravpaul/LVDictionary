@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>LetsVenture Dictionary</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+  </head>
+
+<body>
+    <nav class="navbar navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/index/">LetsVenture Dictionary</a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <div class="col-sm-3 col-md-3 pull-right">
+                <form class="navbar-form" role="search" method="get" action="/index/">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search Words" name="target" id="srch-term">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">   
+        <div class="row">
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="jumbotron">
+                        <h1>LetsVenture Dictionary</h1> 
+                        <p>LetsVenture Dictionary — a quest to design advance, feature rich online vocabulary and advanced
+                        bookmarking.</p> 
+                    </div>
+                </div>
+                <div class="row text-center">
+                    {% for item in pages %}
+                        <a class="btn btn-default" href="/index/?query={{ item }}" style="margin:2px;"><b>{{ item }}</b></a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="well">
+                    <ul class="nav ">
+                        <li ><b>Bookmarked History [ {{ bookmarked_count }} ]</b>
+                        </li>
+                        <div class="control">	                        	
+                            <a href="/index/?query=bookmarked" class="btn btn-xs btn-info" id="show-bookmark">Show All</a>
+                            <a href="#" class="btn btn-xs btn-danger" id="clear-bookmark">Clear</a>
+                        </div>
+                        {% for item in bookmarked %}
+                            <li class="active"><a href="/index/?target={{ item.word }}">{{ item.word }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+    	</div>  
+    	
+        <footer>
+            <p>© Company 2014</p>
+        </footer>
+    </div> <!-- /container -->
+<script type="text/javascript" src="/static/js/jQuery.min.js"></script>
+<script type="text/javascript" src="/static/js/script.js"></script>
+</body>
+</html>

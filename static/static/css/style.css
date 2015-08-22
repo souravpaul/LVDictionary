@@ -1,0 +1,40 @@
+.word-table {
+        width: 100%;
+    }
+
+.word-table thead, tbody, tr, td, th { display: block; }
+
+.word-table tr:after {
+    content: ' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+
+.word-table thead th {
+
+    /*text-align: left;*/
+}
+
+.word-table tbody {
+    height: 450px;
+    overflow-y: auto;
+}
+
+.word-table thead {
+    /* fallback */
+}
+
+
+.word-table tbody td:first-child, thead th:first-child {
+    width: 20%;
+    float: left;
+}
+.word-table tbody td:nth-child(2), thead th:nth-child(2) {
+    width: 80%;
+    float: left;
+}
+
+.word-table tbody tr{
+	cursor:pointer;
+}

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>LetsVenture Dictionary</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+  </head>
+
+  <body>
+<nav class="navbar navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/index/">LetsVenture Dictionary</a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <div class="col-sm-3 col-md-3 pull-right">
+                <form class="navbar-form" role="search" method="get" action="/index/">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search Words" name="target" id="srch-term">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">   
+    	<div class="row">
+	    	<div class="col-md-9">
+
+	    		<div class="row  word-canvas  well" style="display:none">
+	    			<ul class="list-inline">
+						  <li><h4 style="margin:0px;min-width: 150px;text-transform:lowercase;" id="word"><h4></li>
+						  <li><button class="btn btn-primary btn-sm play-music"><i class="glyphicon glyphicon-volume-up"></i></button></li>
+						  <li><button class="btn btn-primary btn-sm" id="bookmark"><i class="glyphicon glyphicon-bookmark"></i></button></li>
+						  <li><button class="btn btn-primary btn-sm" id="share"><i class="glyphicon glyphicon-share"></i></button></li>
+						</ul>
+						<p id="description"></p>
+						<audio id="buzzer" src="buzzer.ogg" type="audio/mpeg" style="display:none;"></audio>   
+	    		</div>
+	    		<div class="row  well search-result">
+	    		</div>
+	    		<div class="row">
+	    			<div class="panel panel-primary">
+						<div class="panel-heading">
+							<div class="row">
+						          <div class="col-sm-6">
+						          	{% if query == "bookmarked" %}
+						              <h3 class="panel-title padFix" style="padding-top:7px;">Bookmarked Words</h3>
+						            {% else %}
+						              <h3 class="panel-title padFix" style="padding-top:7px;">Words start with <span class="badge">{{ query }}</span></h3>
+						            {% endif %}
+						           </div>
+						              <div class="col-sm-6">
+						                    <div class="input-group">
+						                       <input type="text" name="criteria" class="form-control" value="" Placeholder="Search Word" id="search-word">
+						                       <div class="input-group-btn">
+						                          <button class="btn btn-primary"><i class="glyphicon glyphicon-search"></i></button>
+						                       </div>
+						                    </div>
+						          </div>
+							</div>
+						</div>
+						<table class="table table-striped word-table">
+						    <thead >
+							    <tr>
+							        <th style="border-right:solid 1px">Word </th>
+								    <th>Description</th>
+							    </tr>
+						    </thead>
+						    <tbody>
+							    {% for item in words %}
+									<tr data-audio="{{ item.audio_url }}" class="word-btn">
+										<td class="word">{{ item.word }} </td>
+								        <td class="description">{{ item.description }}</td>
+									</tr>
+								{% endfor %}
+						    </tbody>
+						</table>
+						
+					</div>
+	    		</div>
+    		</div>
+    		<div class="col-md-3">
+    				<div class="well">
+	                    <h5 class="nav-header"><b>Word Letters</b></h5>
+	                   	{% for item in pages %}
+	                    		<a class="btn" href="/index/?query={{ item }}" style="margin:2px;padding:2px;"><b>{{ item }}</b></a>
+	                    {% endfor %}
+	                </div>
+    				<div class="well">
+	                    <ul class="nav ">
+	                        <li ><b>Bookmarked History [ {{ bookmarked_count }} ]</b>
+	                        </li>
+	                        <div class="control">	                        	
+	                        	<a href="/index/?query=bookmarked" class="btn btn-xs btn-info" id="show-bookmark">Show All</a>
+	                        	<a href="#" class="btn btn-xs btn-danger" id="clear-bookmark">Clear</a>
+	                        </div>
+	                        {% for item in bookmarked %}
+		                        <li class="active"><a href="/index/?target={{ item.word }}">{{ item.word }}</a>
+		                        </li>
+		                	{% endfor %}
+	                    </ul>
+	                </div>
+	    		
+    		</div>
+    	</div>  
+    	
+		
+
+			<footer>
+        <p>© Company 2014</p>
+      </footer>
+    </div> <!-- /container -->
+<script type="text/javascript" src="/static/js/jQuery.min.js"></script>
+<script type="text/javascript" src="/static/js/script.js"></script>
+<script type="text/javascript">
+$('.search-result').hide();
+var target="{{ target }}";
+	$(document).ready(function(){
+		target=target.toUpperCase();
+		if(target.length>1){
+			var flag=true;
+			$('.word-table tbody tr .word').each(function(){
+				if($(this).text().trim() ==target){
+					$(this).click();
+					flag=false;
+					return false;
+				}
+			});
+			if(flag==true){
+					$('.search-result').html("<h4>Search word <font color='blue'>"+target.toLowerCase()+"</font> not found </h4>");
+					$('.search-result').show();
+			}
+		}
+	});
+	
+</script>
+</body>
+</html>
